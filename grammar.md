@@ -1,36 +1,31 @@
 # Grammar of preql
 
-- Example SQL query:
+## General notes
 
-```sql
-SELECT s.email, d.name, s.grade
-FROM student s
-JOIN department d
-    ON s.department_id = d.id
-WHERE (d.area = 'Math' OR d.area LIKE '% Science')
-    AND s.grade > 16;
-```
+- The expression terminator `<expr-terminator>` is technically a semicolon ( `;`),
+    but the parser will insert a semicolon automatically on every newline if it
+    makes sense to do so.
+
+## Queries
 
 ```preql
-query {
-    table {
-        student := s
-        department := d
-    }
+<query-expression> -> query <query-block>
+<query-block> ->
+    <tables-expression>
+    [<joins-expression>]
+    [<conds-expression>]
+    <get-expression>
 
-    join {
-        s.department_id = d.id
-    }
-
-    cond {
-        d.area = 'Math', d.area LIKE '% Science'
-        s.grade > 16
-    }
-
-    get {
-        s.email
-        d.name
-        s.grade
-    }
+<tables-expression> -> tables <tables-block>
+<tables-block> -> {
+    <table-decls>
 }
+<table-decls> -> (<table-decl>)+
+<table-decl> -> <table-name> := <table-alias><expr-terminator>
+
+<joins-expression> -> joins <joins-block>
+
+<conds-expression> -> conds <conds-block>
+
+<get-expression> -> get <get-block>
 ```

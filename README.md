@@ -4,7 +4,7 @@ A better thought out prequel of SQL.
 
 ## Why preql
 
-Let's take a look at an example of a SQL query:
+Let's take a look at an example SQL query:
 
 ```sql
 SELECT s.email, d.name, s.grade
